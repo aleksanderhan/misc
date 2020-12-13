@@ -17,8 +17,8 @@ def dayGenerator(startDate):
 	d = startDate
 	dt = timedelta(days=1)
 	while True:
-		d = d + dt
 		yield d
+		d = d + dt
 
 
 def findNextPalDate(day):
@@ -39,12 +39,12 @@ def findNextPalDate(day):
 
 def main():
 	startDate = date.today()
+
 	i = 0
 	while (i := i + 1) <= 10:
-		day = dayGenerator(startDate)
-		palDate, palDateFormat = findNextPalDate(day)
-		print(f"{palDate} (yyyy-mm-dd) is the next palindrome date from {startDate} on the format(s): {', '.join(palDateFormat)}")
-		startDate = palDate
+		palDate, palDateFormat = findNextPalDate(dayGenerator(startDate))
+		print(f"{palDate} (yyyy-mm-dd) is a palindrome date on the format(s): {', '.join(palDateFormat)}")
+		startDate = palDate + timedelta(days=1)
 
 
 if __name__ == '__main__':
