@@ -13,32 +13,38 @@ def isPalindrome(dateStr):
 	return dateStr == dateStr[::-1]
 
 
-def dayGenerator():
-	d = date.today()
+def dayGenerator(startDate):
+	d = startDate
 	dt = timedelta(days=1)
 	while True:
-		yield d
 		d = d + dt
+		yield d
 
 
-def main():
-	dg = dayGenerator()
-
+def findNextPalDate(day):
 	while True:
-		day = next(dg)
+		_date = next(day)
 
 		palDateFormat = []
 		for fk, fv in formats.items():
-			dateStr = datetime.strftime(day, fv)
+			dateStr = datetime.strftime(_date, fv)
 			if isPalindrome(dateStr):
 				palDateFormat.append(fk)
 
 		if len(palDateFormat) > 0:
 			break
 
-	print(f'{day} (yyyy-mm-dd) is the next palindrome date from today on the format(s): {", ".join(palDateFormat)}')
+	return _date, palDateFormat
 
 
+def main():
+	startDate = date.today()
+	i = 0
+	while (i := i + 1) <= 10:
+		day = dayGenerator(startDate)
+		palDate, palDateFormat = findNextPalDate(day)
+		print(f"{palDate} (yyyy-mm-dd) is the next palindrome date from {startDate} on the format(s): {', '.join(palDateFormat)}")
+		startDate = palDate
 
 
 if __name__ == '__main__':
