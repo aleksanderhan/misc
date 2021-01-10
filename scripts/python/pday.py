@@ -1,3 +1,4 @@
+import sys
 from datetime import date, timedelta, datetime
 
 
@@ -37,15 +38,22 @@ def findNextPalDate(day):
 	return _date, palDateFormat
 
 
-def main():
+def main(n):
+	print(f"Finding the next {n} palindrome dates:")
 	startDate = date.today()
 
 	i = 0
-	while (i := i + 1) <= 10:
+	while (i := i + 1) <= n:
 		palDate, palDateFormat = findNextPalDate(dayGenerator(startDate))
 		print(f"{palDate} (yyyy-mm-dd) is a palindrome date on the format(s): {', '.join(palDateFormat)}")
 		startDate = palDate + timedelta(days=1)
 
 
 if __name__ == '__main__':
-	main()
+	try:
+		n = int(sys.argv[1])
+		if n < 0:
+			raise Exception("Number must be positive")
+	except:
+		n = 5
+	main(n)
